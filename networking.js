@@ -1,4 +1,12 @@
-let socket = new WebSocket("ws://54.147.44.11:42742");
+DEBUG = (location.hostname === "localhost" || location.hostname === "127.0.0.1");
+host = "ws://54.147.44.11:42742";
+
+if(DEBUG){
+  console.log("In debug");
+  host = "ws://localhost:42742";
+}
+
+let socket = new WebSocket(host);
 
 function alert(msg){
   console.log(msg);
@@ -30,6 +38,6 @@ socket.onerror = function(error) {
 
 
 function sendMessage(){
-  socket.send("Designer_Message");
-  alert("Send designer message");
+  socket.send("designer:pants optional!");
+  alert("Sending designer message");
 }
