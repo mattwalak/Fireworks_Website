@@ -6,6 +6,18 @@ if(DEBUG){
   host = "ws://localhost:42742";
 }
 
+function processServerMessage(msgObj){
+  switch(msgObj.command){
+    case "RequestSkyAspectResponse":
+      console.log("Server:RequestSkyAspectResponse");
+      onReceiveSkyAspect(msgObj.skyAspect);
+      break;
+    default:
+      console.log(`Designer: Unknown command = ${msg}`);
+  }
+};
+
+
 let socket = new WebSocket(host);
 
 function alert(msg){
@@ -20,6 +32,17 @@ socket.onopen = function(e) {
 
 socket.onmessage = function(event) {
   alert(`[message] Data received from server: ${event.data}`);
+
+  try{
+    msgObj = JSON.parse(event.data.toString());
+    if(msgObj.source === "Server"){
+      processServerMessage(msgObj);
+    }else{
+      console.log("Unknown source");
+    }
+  }catch(e){
+    console.log("I don't understand this message");
+  }
 };
 
 socket.onclose = function(event) {
@@ -36,8 +59,29 @@ socket.onerror = function(error) {
   alert(`[error] ${error.message}`);
 };
 
+// ---------------------------------- SEND MESSAGES -------------------------------------------
 
 function sendMessage(){
-  socket.send("designer:pants optional!");
+  socket.send("Designer:pants optional!");
   alert("Sending designer message");
-}
+};
+
+function sendFirework(shape, hue){
+  msg = {
+    source: "Designer",
+    command: "SendFirework",
+    particleShape: shape,
+    particleHue: hue
+  };
+
+  socket.send(JSON.stringify(msg));
+};
+
+function sendRequestSkyAspect(){
+  msg = {
+    source: "Designer",
+    command: "RequestSkyAspect"
+  };
+
+  socket.send(JSON.stringify(msg));
+};
