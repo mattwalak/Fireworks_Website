@@ -1,57 +1,52 @@
-// GLOBAL THINGS
-let aspect; // Width/Height
-let currentScene;
+let aspect;
+let font,
+  fontsize = 32;
 
-// LANDING SCREEN
-let beginGameButton;
-
-// PICK SKY LOCATION SCREEN
-let skySelectorBox;
-
-
-// Just because there are no enum in Javascript
-const LANDING_SCREEN = "SCENE_LANDING_SCREEN";
-const PICK_SKY_LOCATION = "SCENE_PICK_SKY_LOCATION";
-
+function preload(){
+  font = loadFont('assets/Metropolis-Regular.otf')
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
-  beginGameButton = createButton('Click anywhere to begin game!');
-  beginGameButton.position(0, 0);
-  beginGameButton.size(windowWidth, windowHeight);
-  beginGameButton.mousePressed(onBeginGameClicked);
 
-  currentScene = LANDING_SCREEN;
-}
+  textFont(font);
+  textSize(fontsize);
+  textAlign(CENTER, CENTER);
 
-function onBeginGameClicked(){
-  beginGameButton.hide();
-  fullscreen(true);
-  loadPickSkyScene();
-}
-
-function loadPickSkyScene(){
-  background(0);
-  skySelectorBox = new SkySelectionBox(windowWidth/2, windowHeight/2, 100, 100);
-  currentScene = PICK_SKY_LOCATION;
+  fill(255);
+  noStroke();
 }
 
 function draw(){
-  if(currentScene === PICK_SKY_LOCATION){
+  fill(255);
+  noStroke();
+  text("Shape", width/2, height/6);
+  rect((width/6) - 50, (2*height/6) - 50, 100, 100);
+  rect((width/2) - 50, (2*height/6) - 50, 100, 100);
+  rect((5*width/6) - 50, (2*height/6) - 50, 100, 100);
+
+  text("Color", width/2, height/2);
+  rect((width/2) - 250, (4*height/6) - 50, 500, 20);
+
+  rect((width/2) - 125, (5*height/6) - 62.5, 250, 125);
+  fill(0);
+  text("LAUNCH!", (width/2), (5*height/6));
+
+  /*if(currentScene === PICK_SKY_LOCATION){
     background(0);
     skySelectorBox.display();
-  }
+  }*/
 }
 
 function mouseClicked(){
-  if(currentScene === PICK_SKY_LOCATION){
+  /*if(currentScene === PICK_SKY_LOCATION){
     skyClickPosition = skySelectorBox.click(mouseX, mouseY);
     if(!skyClickPosition.hasOwnProperty('clickMissed')){
       sendFirework(1, 0.8);
       // sendRequestSkyAspect();
     }
-  }
+  }*/
 }
 
 function windowResized(){
