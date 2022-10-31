@@ -1,5 +1,5 @@
 DEBUG = (location.hostname === "localhost" || location.hostname === "127.0.0.1");
-host = "ws://54.147.44.11:42742";
+host = "ws://52.73.235.243:42742";
 
 if(DEBUG){
   console.log("In debug");
@@ -66,13 +66,15 @@ function sendMessage(){
   alert("Sending designer message");
 };
 
-function sendFirework(shape, hue){
+function sendFirework(shape, color){
   msg = {
     source: "Designer",
     command: "SendFirework",
     particleShape: shape,
-    particleHue: hue
+    particleColor: {r: color._array[0], g: color._array[1], b: color._array[2], a: color._array[3]}
   };
+
+  console.log(color);
 
   socket.send(JSON.stringify(msg));
 };

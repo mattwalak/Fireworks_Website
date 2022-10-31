@@ -6,7 +6,9 @@ let launchButton, triangleButton, squareButton, circleButton,
   colorButton_1, colorButton_2, colorButton_3, colorButton_4, colorButton_5; // Buttons!
 let count = 0;
 
-let colorOptions = ["#f99", "#ebff99", "#99ffc2", "#99c2ff", "#eb99ff"];
+let colorOptions = ["#ff9999", "#ebff99", "#99ffc2", "#99c2ff", "#eb99ff"];
+
+let particleDemo_A, particleDemo_B;
 
 let selectedShape = 0; // 0 = triangle, 1 = square, 2 = circle
 let selectedColor = 0;
@@ -59,9 +61,9 @@ function setup() {
   // COLORS ---------------------------------
   colorButton_1 = new Button({
     x: 1 * width / 6, y: 4 * height / 6,
-    width: 100,   height: 50,
+    width: 50,   height: 50,
     align_x: 0,   align_y: 0,
-    content: 'Color 1',
+    content: '1',
     on_press() {
       selectedColor = 0;
     }
@@ -71,9 +73,9 @@ function setup() {
 
   colorButton_2 = new Button({
     x: 2 * width / 6, y: 4 * height / 6,
-    width: 100,   height: 50,
+    width: 50,   height: 50,
     align_x: 0,   align_y: 0,
-    content: 'Color 2',
+    content: '2',
     on_press() {
       selectedColor = 1;
     }
@@ -83,9 +85,9 @@ function setup() {
 
   colorButton_3 = new Button({
     x: 3 * width / 6, y: 4 * height / 6,
-    width: 100,   height: 50,
+    width: 50,   height: 50,
     align_x: 0,   align_y: 0,
-    content: 'Color 3',
+    content: '3',
     on_press() {
       selectedColor = 2;
     }
@@ -95,9 +97,9 @@ function setup() {
 
   colorButton_4 = new Button({
     x: 4 * width / 6, y: 4 * height / 6,
-    width: 100,   height: 50,
+    width: 50,   height: 50,
     align_x: 0,   align_y: 0,
-    content: 'Color 4',
+    content: '4',
     on_press() {
       selectedColor = 3;
     }
@@ -107,9 +109,9 @@ function setup() {
 
   colorButton_5 = new Button({
     x: 5 * width / 6, y: 4 * height / 6,
-    width: 100,   height: 50,
+    width: 50,   height: 50,
     align_x: 0,   align_y: 0,
-    content: 'Color 5',
+    content: '5',
     on_press() {
       selectedColor = 4;
     }
@@ -117,23 +119,31 @@ function setup() {
   colorButton_5.style("default", {
     text_size: 16, text_font: font, background: colorOptions[4]});
 
-
+  // LAUNCH ---------------------------------
   launchButton = new Button({
     x: width / 2, y: 5 * height / 6,
-    width: 250,   height: 125,
+    width: 125,   height: 70,
     align_x: 0,   align_y: 0,
     content: 'LAUNCH!',
     on_press() {
-      count++;
-      launchButton.text('Clicks: ' + count);
+      onLaunchClicked();
     }
   });
   launchButton.style("default", {
-    text_size: 32, text_font: font});
+    text_size: 24, text_font: font});
 
+  // PARTICLE DEMOS --------------------------
+  particleDemo_A = new ParticleDemo(width / 6, 5 * height / 6, 100);
+  particleDemo_B = new ParticleDemo(5 * width / 6, 5 * height / 6, 100);
+}
+
+function onLaunchClicked(){
+  console.log("Launch clicked");
+  sendFirework(selectedShape, hexToRgb(colorOptions[selectedColor]));
 }
 
 function draw(){
+  background(0);
   triangleButton.draw();
   squareButton.draw();
   circleButton.draw();
@@ -144,7 +154,11 @@ function draw(){
   colorButton_4.draw();
   colorButton_5.draw();
 
+  particleDemo_A.draw(selectedShape, colorOptions[selectedColor]);
+  particleDemo_B.draw(selectedShape, colorOptions[selectedColor]);
   launchButton.draw();
+
+
 
   textFont(font);
   textSize(fontsize);
@@ -194,4 +208,16 @@ function windowResized(){
 
 function onReceiveSkyAspect(newAspect){
   skySelectorBox.aspect = newAspect;
+}
+
+function hexToRgb(hex) {
+  hex = hex.replace('#', '');
+
+  var bigint = parseInt(hex, 16);
+
+  var r = (bigint >> 16) & 255;
+  var g = (bigint >> 8) & 255;
+  var b = bigint & 255;
+
+  return color(r, g, b);
 }
