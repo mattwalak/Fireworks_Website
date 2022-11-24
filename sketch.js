@@ -3,7 +3,7 @@ let currentScene = 0; // typeSelect = 0, customizationScene = 1, launchScene = 2
 let font;
 
 // Return data from typeSelect
-let selectedType = -1; // 0 = high, 1 = mid, 2 = low
+let fwk_selectedType = -1; // 0 = high, 1 = mid, 2 = low
 
 // Return data from customizationScene
 
@@ -39,15 +39,23 @@ function draw(){
 	}
 }
 
-function mouseClicked(){
+function mousePressed(){
+	print("mousePressed");
 	if(currentScene == 0){
-		typeSelectScene.mouseClickedDelegate();
+		typeSelectScene.mousePressedDelegate();
 	}else if(currentScene == 1){
-		customizationScene.mouseClickedDelegate();
+		customizationScene.mousePressedDelegate();
 	}else if(currentScene == 2){
-		launchScene.mouseClickedDelegate();
+		launchScene.mousePressedDelegate();
 	}else{
 		print("ERROR - unknown scene #"+currentScene);
+	}
+}
+
+function mouseReleased(){
+	print("mouseReleased");
+	if(currentScene == 2){
+		launchScene.mouseReleasedDelegate();
 	}
 }
 
@@ -56,13 +64,22 @@ function windowResized(){
   aspect = windowWidth/windowHeight;
 }
 
-function returnFromTypeSelect(selected){
-	selectedType = selected;
-	print("Selected = " + selected);
-	currentScene = 1;
-	customizationScene.show();
-}
-
 function navigateToScene(targetScene){
+	if(currentScene == 0){
+		typeSelectScene.hide();
+	}else if(currentScene == 1){
+		customizationScene.hide();
+	}else if(currentScene == 2){
+		launchScene.hide();
+	}
+
+	if(targetScene == 0){
+		typeSelectScene.show();
+	}else if(targetScene == 1){
+		customizationScene.show();
+	}else if(targetScene == 2){
+		launchScene.show();
+	}
+	
 	currentScene = targetScene;
 }

@@ -1,6 +1,10 @@
 let highButton, midButton, lowButton;
 
 function TypeSelectScene(){
+	this.hide = function(){
+		
+	}
+
 	this.show = function(){
 
 	}
@@ -56,19 +60,22 @@ function TypeSelectScene(){
 		lowButton.draw();
 	}
 
-	this.mouseClickedDelegate = function(){
+	this.mousePressedDelegate = function(){
 
 	}
 }
 
 function highClicked(){
-	returnFromTypeSelect(0);
+	fwk_selectedType = 0;
+	navigateToScene(1);
 }
 
 function midClicked(){
-	returnFromTypeSelect(1);
+	fwk_selectedType = 1;
+	navigateToScene(1);
 }
 
 function lowClicked(){
-	returnFromTypeSelect(2);
+	fwk_selectedType = 2;
+	navigateToScene(1);
 }

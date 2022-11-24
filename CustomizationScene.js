@@ -21,10 +21,16 @@ let navButtonSize = 100;
 
 let backButton, nextButton;
 let shapeSelector;
+let hueSlider;
+let nextTextButton;
 
 function CustomizationScene(){
 	this.show = function(){
+		hueSlider.show();
+	}
 
+	this.hide = function(){
+		hueSlider.hide();
 	}
 
 	this.setup = function(){
@@ -64,6 +70,29 @@ function CustomizationScene(){
 			navButtonSize, navButtonSize, loadImage('assets/graphics/LeftArrow.png'), navBackClicked, -1);
 		nextButton = new ImageButton(navNextLeftCorner[0], navNextLeftCorner[1], 
 			navButtonSize, navButtonSize, loadImage('assets/graphics/RightArrow.png'), navNextClicked, -1);
+
+		// Hue slider
+		var colorLeftCorner = [margin, (height / 2) - (colorSectionHeight / 2)];
+		var colorRightCorner = [width - margin, (height / 2) + (colorSectionHeight / 2)];
+
+		hueSlider = createSlider(0, 1, 0, 0);
+		hueSlider.position(colorLeftCorner[0] + padding, height/2);
+		hueSlider.size(width - 2*margin - 2*padding);
+		hueSlider.style('-webkit-appearance', 'none');
+		hueSlider.hide();
+
+		// Real navigation buttons
+		nextTextButton = new Button({
+	    x: width / 2, y: (5 * height / 6),
+	    width: 200,   height: 100,
+	    align_x: 0,   align_y: 0,
+	    content: 'Next',
+	    on_press() {
+	      navNextClicked(-1);
+	    }
+	  });
+	  nextTextButton.style("default", {
+	    text_size: 32, text_font: font});
 	}
 
 	this.draw = function(){
@@ -75,11 +104,11 @@ function CustomizationScene(){
 		textSize(36);
 		textAlign(CENTER, CENTER);
 		var title = "";
-		if(selectedType == 0){
+		if(fwk_selectedType == 0){
 			title = "Light";
-		}else if(selectedType == 1){
+		}else if(fwk_selectedType == 1){
 			title = "Medium";
-		}else if(selectedType == 2){
+		}else if(fwk_selectedType == 2){
 			title = "Heavy";
 		}
 		text(title, width/2, height/8);
@@ -89,36 +118,59 @@ function CustomizationScene(){
 		var colorLeftCorner = [margin, (height / 2) - (colorSectionHeight / 2)];
 		var colorRightCorner = [width - margin, (height / 2) + (colorSectionHeight / 2)];
 
-		fill(255, 0, 0);
+		colorMode(HSB);
+		fill(hueSlider.value() * 360, 100, 100);
 		rect(colorLeftCorner[0], colorLeftCorner[1], 
 				 colorRightCorner[0] - colorLeftCorner[0], 
 				 colorRightCorner[1] - colorLeftCorner[1]);
+		colorMode(RGB);
+
+		fill(255);
+		textFont(font);
+		textSize(16);
+		textAlign(LEFT, TOP);
+		text("Select a color:", colorLeftCorner[0] + padding, colorLeftCorner[1] + padding);
 
 		// Shape section
 		var shapeLeftCorner = [margin, (height / 2) - (colorSectionHeight / 2) - margin - shapeSectionHeight];
 		var shapeRightCorner = [width - margin, shapeLeftCorner[1] + shapeSectionHeight];
 
 		fill(0, 255, 0);
-		rect(shapeLeftCorner[0], shapeLeftCorner[1], 
+		/*rect(shapeLeftCorner[0], shapeLeftCorner[1], 
 				 shapeRightCorner[0] - shapeLeftCorner[0], 
-				 shapeRightCorner[1] - shapeLeftCorner[1]);
+				 shapeRightCorner[1] - shapeLeftCorner[1]);*/
 
+
+		shapeSelector.setHue(hueSlider.value());
 		shapeSelector.draw();
+		fill(255);
+		textFont(font);
+		textSize(16);
+		textAlign(LEFT, TOP);
+		text("Select a shape:", shapeLeftCorner[0] + padding, shapeLeftCorner[1] + padding);
+
 
 		// Behavior section
-
 		var behaviorLeftCorner = [margin, (height / 2) + (colorSectionHeight / 2) + margin];
 		var behaviorRightCorner = [width - margin, behaviorLeftCorner[1] + behaviorSectionHeight];
 
-		fill(0, 0, 255);
+		fill(255);
+		textFont(font);
+		textSize(16);
+		textAlign(LEFT, TOP);
+		text("Add behaviors:", behaviorLeftCorner[0] + padding, behaviorLeftCorner[1] + padding);
+
+		/*fill(0, 0, 255);
 		rect(behaviorLeftCorner[0], behaviorLeftCorner[1], 
 				 behaviorRightCorner[0] - behaviorLeftCorner[0], 
-				 behaviorRightCorner[1] - behaviorLeftCorner[1]);
+				 behaviorRightCorner[1] - behaviorLeftCorner[1]);*/
 
-		// Navigation Buttons
-
+		// Navigation Buttons (This is bad rn lol)
+		/*
 		nextButton.draw();
-		backButton.draw();
+		backButton.draw();*/
+		nextTextButton.draw();
+
 
 		/*
 		var navBackLeftCorner = [margin, (height/2) + (colorSectionHeight / 2) + margin + behaviorSectionHeight + margin];
@@ -139,9 +191,10 @@ function CustomizationScene(){
 
 	}
 
-	this.mouseClickedDelegate = function(){
+	this.mousePressedDelegate = function(){
 		nextButton.checkClick();
 		backButton.checkClick();
+		shapeSelector.checkClick();
 	}
 }
 
