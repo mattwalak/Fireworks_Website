@@ -94,8 +94,8 @@ function LaunchScene(){
 
 
 		textSize(16);
-		text("Click in the blue area to launch a firework! \n Hold down longer for larger fireworks",
-			width/2, 11 * height / 16);
+		text("Tap in the blue area to launch a firework! \n Hold down longer for larger fireworks",
+			width/2, 5 * height / 16);
 
 
 		// Draw skyBox
