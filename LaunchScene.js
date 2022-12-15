@@ -12,7 +12,7 @@ var isInClick = false;
 var clickStartTime;
 var click_x, click_y;
 var TIME_TO_MAX_CLICK = 5000;
-var MAX_CIRCLE_RADIUS = 100;
+var MAX_CIRCLE_RADIUS = 250;
 
 var MIN_ANIM_SIZE = 100;
 var MAX_ANIM_SIZE = 300;
@@ -21,9 +21,24 @@ var activeAnimData = []; // ALWAYS ordered with oldest first. New anims get adde
 var fireworkImg;
 // Format: {startTime: float, scale: float [0, 1], xLine: float, normX: float, normY: float}
 
+var backTextButton_2;
+
 function LaunchScene(){
 	this.setup = function(){
 		fireworkImg = loadImage('assets/graphics/FireworkBody.png');
+
+		backTextButton_2 = new Button({
+	    x: width / 2, y: (11 * height / 12),
+	    width: 200,   height: 30,
+	    align_x: 0,   align_y: 0,
+	    content: 'Back',
+	    on_release() {
+	      navBackClicked_2(-1);
+	    }
+	  });
+	  backTextButton_2.style("default", {
+	    text_size: 16, text_font: font});
+
 	}
 
 	this.show = function(){
@@ -54,13 +69,14 @@ function LaunchScene(){
 
 	this.draw = function(){
 		// print("active anims = " + activeAnimData.length);
-
 		background(0);
+
+		backTextButton_2.draw();
 
 		// Page title
 		fill(255);
 		textFont(font);
-		textSize(36);
+		textSize(16);
 		textAlign(CENTER, CENTER);
 		var title = "";
 		if(fwk_type == 0){
@@ -70,9 +86,20 @@ function LaunchScene(){
 		}else if(fwk_type == 2){
 			title = "Heavy";
 		}
-		text(title, width/2, height/8);
+		text(title, width/2, 20);
+
+		textAlign(CENTER, CENTER);
+		textSize(36);
+		text("Launch", width/2, height/8);
+
+
+		textSize(16);
+		text("Click in the blue area to launch a firework! \n Hold down longer for larger fireworks",
+			width/2, 11 * height / 16);
+
 
 		// Draw skyBox
+		fill(127);
 		rect(skyBoxUpperLeftCorner[0], skyBoxUpperLeftCorner[1], 
 			calculatedSkyBoxWidth, calculatedSkyBoxHeight);
 		// Draw valid launch area
@@ -141,4 +168,8 @@ function LaunchScene(){
 
 		isInClick = false;
 	}
+}
+
+function navBackClicked_2(ID){
+	navigateToScene(1);
 }

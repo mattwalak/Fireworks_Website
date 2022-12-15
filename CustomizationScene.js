@@ -21,16 +21,18 @@ let navButtonSize = 100;
 
 let backButton, nextButton;
 let shapeSelector;
-let hueSlider;
+// let hueSlider;
 let nextTextButton;
+let backTextButton;
+let hueSliderCustom;
 
 function CustomizationScene(){
 	this.show = function(){
-		hueSlider.show();
+		// hueSlider.show();
 	}
 
 	this.hide = function(){
-		hueSlider.hide();
+		// hueSlider.hide();
 	}
 
 	this.setup = function(){
@@ -75,24 +77,40 @@ function CustomizationScene(){
 		var colorLeftCorner = [margin, (height / 2) - (colorSectionHeight / 2)];
 		var colorRightCorner = [width - margin, (height / 2) + (colorSectionHeight / 2)];
 
+		/*
 		hueSlider = createSlider(0, 1, 0, 0);
 		hueSlider.position(colorLeftCorner[0] + padding, height/2);
 		hueSlider.size(width - 2*margin - 2*padding);
 		hueSlider.style('-webkit-appearance', 'none');
-		hueSlider.hide();
+		hueSlider.hide();*/
+
+		// Custom hue slider
+		hueSliderCustom = new Slider(height/2, width - 2*(padding + margin), 25);
 
 		// Real navigation buttons
 		nextTextButton = new Button({
-	    x: width / 2, y: (5 * height / 6),
+	    x: width / 2, y: (9 * height / 12),
 	    width: 200,   height: 100,
 	    align_x: 0,   align_y: 0,
 	    content: 'Next',
-	    on_press() {
+	    on_release() {
 	      navNextClicked(-1);
 	    }
 	  });
 	  nextTextButton.style("default", {
 	    text_size: 32, text_font: font});
+
+	  backTextButton = new Button({
+	    x: width / 2, y: (11 * height / 12),
+	    width: 200,   height: 30,
+	    align_x: 0,   align_y: 0,
+	    content: 'Back',
+	    on_release() {
+	      navBackClicked(-1);
+	    }
+	  });
+	  backTextButton.style("default", {
+	    text_size: 16, text_font: font});
 	}
 
 	this.draw = function(){
@@ -101,7 +119,7 @@ function CustomizationScene(){
 		// Page title
 		fill(255);
 		textFont(font);
-		textSize(36);
+		textSize(16);
 		textAlign(CENTER, CENTER);
 		var title = "";
 		if(fwk_type == 0){
@@ -111,25 +129,34 @@ function CustomizationScene(){
 		}else if(fwk_type == 2){
 			title = "Heavy";
 		}
-		text(title, width/2, height/8);
+		text(title, width/2, 20);
+
+		textAlign(CENTER, CENTER);
+		textSize(36);
+		text("Customize", width/2, height/8);
 
 
 		// Color section
 		var colorLeftCorner = [margin, (height / 2) - (colorSectionHeight / 2)];
 		var colorRightCorner = [width - margin, (height / 2) + (colorSectionHeight / 2)];
 
+		/*
 		colorMode(HSB);
-		fill(hueSlider.value() * 360, 100, 100);
+		fill(hueSliderCustom.getValue() * 360, 50, 100);
 		rect(colorLeftCorner[0], colorLeftCorner[1], 
 				 colorRightCorner[0] - colorLeftCorner[0], 
 				 colorRightCorner[1] - colorLeftCorner[1]);
-		colorMode(RGB);
+		colorMode(RGB);*/
 
 		fill(255);
 		textFont(font);
 		textSize(16);
 		textAlign(LEFT, TOP);
 		text("Select a color:", colorLeftCorner[0] + padding, colorLeftCorner[1] + padding);
+
+
+		// Better color slider
+		hueSliderCustom.draw();
 
 		// Shape section
 		var shapeLeftCorner = [margin, (height / 2) - (colorSectionHeight / 2) - margin - shapeSectionHeight];
@@ -141,7 +168,7 @@ function CustomizationScene(){
 				 shapeRightCorner[1] - shapeLeftCorner[1]);*/
 
 
-		shapeSelector.setHue(hueSlider.value());
+		shapeSelector.setHue(hueSliderCustom.getValue());
 		shapeSelector.draw();
 		fill(255);
 		textFont(font);
@@ -173,6 +200,7 @@ function CustomizationScene(){
 		nextButton.draw();
 		backButton.draw();*/
 		nextTextButton.draw();
+		backTextButton.draw();
 
 
 		/*
@@ -195,15 +223,20 @@ function CustomizationScene(){
 	}
 
 	this.mousePressedDelegate = function(){
-		nextButton.checkClick();
-		backButton.checkClick();
+		// nextButton.checkClick();
+		// backButton.checkClick();
 		shapeSelector.checkClick();
+		hueSliderCustom.onClickStart();
+	}
+
+	this.mouseReleasedDelegate = function(){
+		hueSliderCustom.onClickEnd();
 	}
 }
 
 function navNextClicked(ID){
 	fwk_shape = shapeSelector.getSelectedIndex();
-	fwk_hue = hueSlider.value();
+	fwk_hue = hueSliderCustom.getValue();
 	navigateToScene(2);
 }
 

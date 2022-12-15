@@ -17,7 +17,7 @@ function TypeSelectScene(){
 	    width: 200,   height: 100,
 	    align_x: 0,   align_y: 0,
 	    content: 'Light',
-	    on_press() {
+	    on_release() {
 	      highClicked();
 	    }
 	  });
@@ -30,7 +30,7 @@ function TypeSelectScene(){
 	    width: 200,   height: 100,
 	    align_x: 0,   align_y: 0,
 	    content: 'Medium',
-	    on_press() {
+	    on_release() {
 	      midClicked();
 	    }
 	  });
@@ -43,7 +43,7 @@ function TypeSelectScene(){
 	    width: 200,   height: 100,
 	    align_x: 0,   align_y: 0,
 	    content: 'Heavy',
-	    on_press() {
+	    on_release() {
 	      lowClicked();
 	    }
 	  });

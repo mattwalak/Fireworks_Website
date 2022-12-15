@@ -48,7 +48,6 @@ function draw(){
 }
 
 function mousePressed(){
-	print("Mouse Pressed");
 	if(currentScene == 0){
 		typeSelectScene.mousePressedDelegate();
 	}else if(currentScene == 1){
@@ -61,8 +60,9 @@ function mousePressed(){
 }
 
 function mouseReleased(){
-	print("Mouse Released");
-	if(currentScene == 2){
+	if(currentScene == 1){
+		customizationScene.mouseReleasedDelegate();
+	}else if(currentScene == 2){
 		launchScene.mouseReleasedDelegate();
 	}
 }
