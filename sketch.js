@@ -48,6 +48,7 @@ function draw(){
 }
 
 function mousePressed(){
+	print("Mouse Pressed");
 	if(currentScene == 0){
 		typeSelectScene.mousePressedDelegate();
 	}else if(currentScene == 1){
@@ -60,6 +61,7 @@ function mousePressed(){
 }
 
 function mouseReleased(){
+	print("Mouse Released");
 	if(currentScene == 2){
 		launchScene.mouseReleasedDelegate();
 	}
@@ -95,14 +97,18 @@ function navigateToScene(targetScene){
  * the page.
  */
 
+
 function touchStarted(){
-  return false;
+	mousePressed();
+  return true;
 }
 
 function touchMoved(){
-  return false;
+	// print("touch moved");
+  return true;
 }
 
 function touchEnded(){
-  return false;
+	mouseReleased();
+  return true;
 }
