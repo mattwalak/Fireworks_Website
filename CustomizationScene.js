@@ -43,8 +43,8 @@ function CustomizationScene(){
 		imgArray[5] = loadImage('assets/shapes/Clover.png');
 		imgArray[6] = loadImage('assets/shapes/Spike.png');
 		imgArray[7] = loadImage('assets/shapes/Star.png');
-		imgArray[8] = loadImage('assets/shapes/Triangle.png');
-		imgArray[9] = loadImage('assets/shapes/Square.png');
+		imgArray[8] = loadImage('assets/shapes/Heart.png');
+		imgArray[9] = loadImage('assets/shapes/Crecent.png');
 
 		// Shape Selector
 		calculatedShapePanelWidth = shapeNX * shapeSize + (shapeNX - 1) * shapePadding;
@@ -104,11 +104,11 @@ function CustomizationScene(){
 		textSize(36);
 		textAlign(CENTER, CENTER);
 		var title = "";
-		if(fwk_selectedType == 0){
+		if(fwk_type == 0){
 			title = "Light";
-		}else if(fwk_selectedType == 1){
+		}else if(fwk_type == 1){
 			title = "Medium";
-		}else if(fwk_selectedType == 2){
+		}else if(fwk_type == 2){
 			title = "Heavy";
 		}
 		text(title, width/2, height/8);
@@ -151,6 +151,9 @@ function CustomizationScene(){
 
 
 		// Behavior section
+		// This section has been canceled
+
+		/*
 		var behaviorLeftCorner = [margin, (height / 2) + (colorSectionHeight / 2) + margin];
 		var behaviorRightCorner = [width - margin, behaviorLeftCorner[1] + behaviorSectionHeight];
 
@@ -158,7 +161,7 @@ function CustomizationScene(){
 		textFont(font);
 		textSize(16);
 		textAlign(LEFT, TOP);
-		text("Add behaviors:", behaviorLeftCorner[0] + padding, behaviorLeftCorner[1] + padding);
+		text("Add behaviors:", behaviorLeftCorner[0] + padding, behaviorLeftCorner[1] + padding);*/
 
 		/*fill(0, 0, 255);
 		rect(behaviorLeftCorner[0], behaviorLeftCorner[1], 
@@ -199,6 +202,8 @@ function CustomizationScene(){
 }
 
 function navNextClicked(ID){
+	fwk_shape = shapeSelector.getSelectedIndex();
+	fwk_hue = hueSlider.value();
 	navigateToScene(2);
 }
 

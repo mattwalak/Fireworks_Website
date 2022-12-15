@@ -19,7 +19,7 @@ var MAX_ANIM_SIZE = 300;
 var ANIM_TIME = 750; // At this time, the firework image is completely offscreen
 var activeAnimData = []; // ALWAYS ordered with oldest first. New anims get added to end
 var fireworkImg;
-// Format: {startTime: float, scale: float [0, 1], xLine: float}
+// Format: {startTime: float, scale: float [0, 1], xLine: float, normX: float, normY: float}
 
 function LaunchScene(){
 	this.setup = function(){
@@ -31,13 +31,13 @@ function LaunchScene(){
 		calculatedSkyBoxHeight = calculatedSkyBoxWidth / skyAspect;
 		skyBoxUpperLeftCorner = [(width/2) - (calculatedSkyBoxWidth/2), (height/2) - (calculatedSkyBoxHeight/2)];
 
-		if(fwk_selectedType == 0){
+		if(fwk_type == 0){
 			validLaunchUpperCorner = [skyBoxUpperLeftCorner[0], 
 																skyBoxUpperLeftCorner[1] + (calculatedSkyBoxHeight/3)*0];
-		}else if(fwk_selectedType == 1){
+		}else if(fwk_type == 1){
 			validLaunchUpperCorner = [skyBoxUpperLeftCorner[0], 
 																skyBoxUpperLeftCorner[1] + (calculatedSkyBoxHeight/3)*1];
-		}else if(fwk_selectedType == 2){
+		}else if(fwk_type == 2){
 			validLaunchUpperCorner = [skyBoxUpperLeftCorner[0], 
 																skyBoxUpperLeftCorner[1] + (calculatedSkyBoxHeight/3)*2];
 		}
@@ -58,16 +58,16 @@ function LaunchScene(){
 		background(0);
 
 		// Page title
-		fill(50);
+		fill(255);
 		textFont(font);
 		textSize(36);
 		textAlign(CENTER, CENTER);
 		var title = "";
-		if(fwk_selectedType == 0){
+		if(fwk_type == 0){
 			title = "Light";
-		}else if(fwk_selectedType == 1){
+		}else if(fwk_type == 1){
 			title = "Medium";
-		}else if(fwk_selectedType == 2){
+		}else if(fwk_type == 2){
 			title = "Heavy";
 		}
 		text(title, width/2, height/8);
@@ -98,9 +98,9 @@ function LaunchScene(){
 		// first prune the animation data
 		var currentTime = millis();
 		while(activeAnimData.length > 0 && millis() >= (activeAnimData[0].startTime + ANIM_TIME)){
+			sendFirework(fwk_type, fwk_shape, fwk_hue, activeAnimData[0].scale, 
+				activeAnimData[0].normX, activeAnimData[0].normY);
 			activeAnimData.shift();
-			print("LAUNCH ONE!");
-			// This is where you would send the network communication
 		}
 
 		for(var i = 0; i < activeAnimData.length; i++){
@@ -134,6 +134,8 @@ function LaunchScene(){
 			var actualScale = lerp(MIN_ANIM_SIZE, MAX_ANIM_SIZE, t);
 			var x = lerp(0, width - actualScale, random());
 			var animData = {startTime: millis(), scale: t, x_line: (click_x - actualScale/2)};
+			animData.normX = (click_x - skyBoxUpperLeftCorner[0]) / calculatedSkyBoxWidth;
+			animData.normY = (click_y - skyBoxUpperLeftCorner[1]) / calculatedSkyBoxHeight;
 			activeAnimData.push(animData);
 		}
 

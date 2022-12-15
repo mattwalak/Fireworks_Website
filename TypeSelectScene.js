@@ -66,16 +66,16 @@ function TypeSelectScene(){
 }
 
 function highClicked(){
-	fwk_selectedType = 0;
+	fwk_type = 0;
 	navigateToScene(1);
 }
 
 function midClicked(){
-	fwk_selectedType = 1;
+	fwk_type = 1;
 	navigateToScene(1);
 }
 
 function lowClicked(){
-	fwk_selectedType = 2;
+	fwk_type = 2;
 	navigateToScene(1);
 }

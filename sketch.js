@@ -3,9 +3,17 @@ let currentScene = 0; // typeSelect = 0, customizationScene = 1, launchScene = 2
 let font;
 
 // Return data from typeSelect
-let fwk_selectedType = -1; // 0 = high, 1 = mid, 2 = low
+let fwk_type = -1; // 0 = high, 1 = mid, 2 = low
 
 // Return data from customizationScene
+let fwk_shape = -1; // In order as they appear on the shape select screen
+let fwk_hue = 0; // [0, 1]
+
+// Return data from launchScene
+let fwk_scale = 0; // [0, 1]
+let fwk_NormXPos = 0; // [0, 1]
+let fwk_NormYPos = 0; // [0, 1]
+
 
 // Return data from Launch Scene
 
@@ -40,7 +48,6 @@ function draw(){
 }
 
 function mousePressed(){
-	print("mousePressed");
 	if(currentScene == 0){
 		typeSelectScene.mousePressedDelegate();
 	}else if(currentScene == 1){
@@ -53,7 +60,6 @@ function mousePressed(){
 }
 
 function mouseReleased(){
-	print("mouseReleased");
 	if(currentScene == 2){
 		launchScene.mouseReleasedDelegate();
 	}
@@ -82,4 +88,21 @@ function navigateToScene(targetScene){
 	}
 	
 	currentScene = targetScene;
+}
+
+/* prevents the mobile browser from processing some default
+ * touch events, like swiping left for "back" or scrolling
+ * the page.
+ */
+
+function touchStarted(){
+  return false;
+}
+
+function touchMoved(){
+  return false;
+}
+
+function touchEnded(){
+  return false;
 }

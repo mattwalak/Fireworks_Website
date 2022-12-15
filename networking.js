@@ -57,6 +57,7 @@ socket.onclose = function(event) {
 
 socket.onerror = function(error) {
   alert(`[error] ${error.message}`);
+  console.log("EEEEEERRRR", error)
 };
 
 // ---------------------------------- SEND MESSAGES -------------------------------------------
@@ -66,6 +67,24 @@ function sendMessage(){
   alert("Sending designer message");
 };
 
+function sendFirework(type, shape, hue, scale, normPosX, normPosY){
+  msg = {
+    source: "Designer",
+    command: "SendFirework",
+    type: type,
+    shape: shape,
+    hue: hue,
+    scale: scale,
+    normPosX: normPosX,
+    normPosY: normPosY
+  };
+
+  console.log(msg);
+
+  socket.send(JSON.stringify(msg));
+}
+
+/*
 function sendFirework(shape, color){
   msg = {
     source: "Designer",
@@ -77,7 +96,7 @@ function sendFirework(shape, color){
   console.log(color);
 
   socket.send(JSON.stringify(msg));
-};
+};*/
 
 function sendRequestSkyAspect(){
   msg = {
