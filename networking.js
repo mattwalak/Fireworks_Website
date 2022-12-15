@@ -1,5 +1,5 @@
 DEBUG = (location.hostname === "localhost" || location.hostname === "127.0.0.1");
-host = "ws://52.73.235.243:42742";
+host = "ws://3.85.104.149:42742";
 
 if(DEBUG){
   console.log("In debug");
