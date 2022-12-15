@@ -43,6 +43,10 @@ function LaunchScene(){
 
 	this.show = function(){
 		calculatedSkyBoxWidth = width - 2*skyBoxMargin;
+		print(calculatedSkyBoxWidth);
+		if(calculatedSkyBoxWidth > 400){
+			calculatedSkyBoxWidth = 400;
+		}
 		calculatedSkyBoxHeight = calculatedSkyBoxWidth / skyAspect;
 		skyBoxUpperLeftCorner = [(width/2) - (calculatedSkyBoxWidth/2), (height/2) - (calculatedSkyBoxHeight/2)];
 
@@ -95,7 +99,7 @@ function LaunchScene(){
 
 		textSize(16);
 		text("Tap in the blue area to launch a firework! \n Hold down longer for larger fireworks",
-			width/2, 5 * height / 16);
+			width/2, 3 * height / 16);
 
 
 		// Draw skyBox
