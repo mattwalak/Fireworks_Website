@@ -100,15 +100,15 @@ function navigateToScene(targetScene){
 
 function touchStarted(){
 	mousePressed();
-  return true;
+  return false;
 }
 
 function touchMoved(){
 	// print("touch moved");
-  return true;
+  return false;
 }
 
 function touchEnded(){
 	mouseReleased();
-  return true;
+  return false;
 }
