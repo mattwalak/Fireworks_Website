@@ -6,7 +6,7 @@ let font;
 let fwk_type = -1; // 0 = high, 1 = mid, 2 = low
 
 // Return data from customizationScene
-let fwk_shape = -1; // In order as they appear on the shape select screen
+let fwk_shape = -1; // In order as they appear on the shape select screen 
 let fwk_hue = 0; // [0, 1]
 
 // Return data from launchScene
